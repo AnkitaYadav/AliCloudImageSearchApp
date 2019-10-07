@@ -1,0 +1,41 @@
+<h2>Export file in Oss</h2>
+
+<div class="row">
+  <div class="col-md-4">
+    <select style="width: 200px;height: 30px;background-color: lightgray;font-size: 15px;margin: 20px;"
+            [ngModel]="category" name="category" (ngModelChange)="onChange($event)" >
+      <option value="-1">Select Category</option>
+      <option value="0">Tops</option>
+      <option value="1">Dress</option>
+      <option value="2">Bottoms</option>
+      <option value="3">Bag</option>
+      <option value="4">Shoes</option>
+      <option value="5">Accessories</option>
+      <option value="6">Snack</option>
+      <option value="7">Makeup</option>
+      <option value="8">Bottle</option>
+      <option value="9">Furniture</option>
+      <option value="20">Toy</option>
+      <option value="22">Digital device</option>
+      <option value="88888888">Other</option>
+
+
+    </select>
+  </div>
+  <div class="col-md-8">
+    <div class="form-group"  >
+      <label for="file">Upload</label>
+      <input type="file"
+             id="file"
+             (change)="handleFileInput($event.target.files)"  multiple accept=".png, .jpeg,.jpg" [disabled]="category=='-1'">
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+

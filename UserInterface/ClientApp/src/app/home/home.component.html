@@ -1,0 +1,28 @@
+
+<!--<div class="row" style="margin-bottom:15px;">
+  <div class="col-md-3">
+    <input type="file" #file placeholder="Choose file" (change)="uploadFile(file.files)" style="display:none;">
+    <button type="button" class="btn btn-success" (click)="file.click()">Upload File</button>
+  </div>
+
+</div>-->
+
+
+<div style="margin:20px">
+  <div>
+    <label for="filePicker">Choose or drag a file:</label><br>
+    <input type="file" id="filePicker" (change)="handleFileSelect($event)">
+  </div>
+  <br>
+
+</div>
+
+<div class="wrapper">
+  <div class="item2" *ngFor="let image of listImages; let i = index" style="border:1px solid black;">
+    <img class="img-responsive img-rounded" src="{{image}}" alt="pic-test">
+
+  </div>
+</div>
+
+
+

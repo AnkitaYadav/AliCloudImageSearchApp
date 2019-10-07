@@ -1,0 +1,40 @@
+{
+  "operator": "ADD",
+  "item_id": "901",
+  "cat_id": 9,
+  "cust_content": "k1:v1,k2:v2,k3:v3",
+  "pic_list": [ "furniture1.jpg" ]
+}
+{"operator": "ADD", "item_id": "902","cat_id": 9,"cust_content": "k1:v1,k2:v2,k3:v3", "pic_list": [ "furniture2.jpg" ]}
+{"operator":"ADD","item_id":"903", "cat_id":9, "cust_content":"k1:v1,k2:v2,k3:v3", "pic_list":["furniture3.jpg"]}
+{"operator":"ADD","item_id":"904", "cat_id":9, "cust_content":"k1:v1,k2:v2,k3:v3", "pic_list":["furniture4.jpg"]}
+{"operator":"ADD","item_id":"905", "cat_id":9, "cust_content":"k1:v1,k2:v2,k3:v3", "pic_list":["furniture5.jpg"]}
+{"operator":"ADD","item_id":"906", "cat_id":9, "cust_content":"k1:v1,k2:v2,k3:v3", "pic_list":["furniture6.jpg"]}
+{"operator":"ADD","item_id":"907",  "cust_content":"k1:v1,k2:v2,k3:v3", "pic_list":["furniture7.jpg"]}
+{"operator":"ADD","item_id":"908",  "cust_content":"k1:v1,k2:v2,k3:v3", "pic_list":["furniture8.jpg"]}
+{"operator":"ADD","item_id":"909",  "cust_content":"k1:v1,k2:v2,k3:v3", "pic_list":["furniture9.jpg"]}
+{"operator":"ADD","item_id":"910",  "cust_content":"k1:v1,k2:v2,k3:v3", "pic_list":["furniture10.jpg"]}
+{"operator":"ADD","item_id":"911",  "cust_content":"k1:v1,k2:v2,k3:v3", "pic_list":["furniture11.jpg"]}
+{"operator":"ADD","item_id":"912",  "cust_content":"k1:v1,k2:v2,k3:v3", "pic_list":["furniture12.jpg"]}
+{"operator":"ADD","item_id":"913",  "cust_content":"k1:v1,k2:v2,k3:v3", "pic_list":["furniture13.jpg"]}
+{"operator":"ADD","item_id":"914",  "cust_content":"k1:v1,k2:v2,k3:v3", "pic_list":["furniture14.jpg"]}
+{"operator":"ADD","item_id":"915",  "cust_content":"k1:v1,k2:v2,k3:v3", "pic_list":["furniture15.jpg"]}
+
+{"operator":"ADD","item_id":"916",  "cust_content":"k1:v1,k2:v2,k3:v3", "pic_list":["images16.jpg"]}
+
+{"operator":"ADD","item_id":"917",  "cust_content":"k1:v1,k2:v2,k3:v3", "pic_list":["images17.jpg"]}
+
+{"operator":"ADD","item_id":"918",  "cust_content":"k1:v1,k2:v2,k3:v3", "pic_list":["images18.jpg"]}
+
+{"operator":"ADD","item_id":"919",  "cust_content":"k1:v1,k2:v2,k3:v3", "pic_list":["images19.jpg"]}
+
+{"operator":"ADD","item_id":"920",  "cust_content":"k1:v1,k2:v2,k3:v3", "pic_list":["images20.jpg"]}
+
+{"operator":"ADD","item_id":"921",  "cust_content":"k1:v1,k2:v2,k3:v3", "pic_list":["images21.jpg"]}
+
+{"operator":"ADD","item_id":"922",  "cust_content":"k1:v1,k2:v2,k3:v3", "pic_list":["images22.jpg"]}
+
+{"operator":"ADD","item_id":"923",  "cust_content":"k1:v1,k2:v2,k3:v3", "pic_list":["images23.jpg"]}
+{"operator":"ADD","item_id":"924",  "cust_content":"k1:v1,k2:v2,k3:v3", "pic_list":["images24.jpg"]}
+
+
