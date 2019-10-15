@@ -7,10 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageSearch", "ImageSearch\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserInterface", "UserInterface\UserInterface.csproj", "{C07135F2-086D-4AC7-97C5-816C8DF81ACC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageSearchAPI", "ImageSearchAPI\ImageSearchAPI.csproj", "{6AC01776-26DE-427B-AEC5-F0E82F988BFB}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "API\API.csproj", "{2DA8091E-53C3-4196-9E48-89D3F1F002C2}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,14 +21,6 @@ Global
 		{C07135F2-086D-4AC7-97C5-816C8DF81ACC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C07135F2-086D-4AC7-97C5-816C8DF81ACC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C07135F2-086D-4AC7-97C5-816C8DF81ACC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6AC01776-26DE-427B-AEC5-F0E82F988BFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6AC01776-26DE-427B-AEC5-F0E82F988BFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6AC01776-26DE-427B-AEC5-F0E82F988BFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6AC01776-26DE-427B-AEC5-F0E82F988BFB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2DA8091E-53C3-4196-9E48-89D3F1F002C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2DA8091E-53C3-4196-9E48-89D3F1F002C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2DA8091E-53C3-4196-9E48-89D3F1F002C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2DA8091E-53C3-4196-9E48-89D3F1F002C2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
