@@ -29,7 +29,7 @@ export class CounterComponent  {
     this._homeService.UploadFile(this.fileToUpload, this.category).subscribe(data => {
       // do something, if upload success
       debugger;
-      alert(data);
+      alert("File Uploaded Succcesfully");
     }, error => {
       console.log(error);
     });

@@ -44,7 +44,7 @@ namespace ImageSearch
             searchRequest.PicContent = pic;
             SearchImageResponse searchResponse = client.GetAcsResponse(searchRequest);
 
-          
+
             Console.WriteLine(searchResponse);
             Console.WriteLine(searchResponse.RequestId);
 
@@ -56,35 +56,40 @@ namespace ImageSearch
             //DeleteImageResponse deleteResponse = client.GetAcsResponse(deleteRequest);
             //Console.WriteLine(deleteResponse.RequestId);
         }
-
         public List<string> FilterImageWithBinaryData(string imagewithBase64Encoded)
         {
-            string ImageUrl = "http://imagesearchbuckettest.oss-ap-southeast-1.aliyuncs.com/images/{0}";
+            string ImageUrl = ImageSearchConstant.ImageSearchUrl;
             List<string> filteredImages = new List<string>();
-            IClientProfile profile = DefaultProfile.GetProfile("ap-southeast-1", "LTAI0YxcZfPRUUjg", "2BnIA99n4P5McHbaH5HZ7IrSPCIa4F");
-            DefaultProfile.AddEndpoint("imagesearch.ap-southeast-1.aliyuncs.com", "ap-southeast-1", "ImageSearch", "imagesearch.ap-southeast-1.aliyuncs.com");
+            //IClientProfile profile = DefaultProfile.GetProfile("cn-shanghai", ImageSearchConstant.AccessKeyId, ImageSearchConstant.Secret);
+            //DefaultProfile.AddEndpoint("imagesearch.cn-shanghai.aliyuncs.com", "cn-shanghai", ImageSearchConstant.BucketName, ImageSearchConstant.Domain);
+
+            IClientProfile profile = DefaultProfile.GetProfile("eu-central-1", "LTAI0YxcZfPRUUjg", "2BnIA99n4P5McHbaH5HZ7IrSPCIa4F");
+            DefaultProfile.AddEndpoint("imagesearch.eu-central-1.aliyuncs.com", "eu-central-1", "ImageSearch", "imagesearch.eu-central-1.aliyuncs.com");
             IAcsClient client = new DefaultAcsClient(profile);
             // Add an image.
             AddImageRequest addRequest = new AddImageRequest();
-            addRequest.InstanceName = "teamimagesearch";
+            addRequest.InstanceName = ImageSearchConstant.InstanceName;
             addRequest.ProductId = "test";
             addRequest.PicName = "test";
-           // byte[] img = System.IO.File.ReadAllBytes("filePath");
-            string pic = imagewithBase64Encoded;
+            // byte[] img = System.IO.File.ReadAllBytes("filePath");
+            string pic = string.Empty;
+            byte[] image = Convert.FromBase64String(imagewithBase64Encoded);
+            using (var ms = new MemoryStream(image))
+            {
+                Image img = Image.FromStream(ms);
+                pic = ResizeFilterImage(img);
+            }
             addRequest.PicContent = pic;
             //AddImageResponse addResponse = client.GetAcsResponse(addRequest);
             //Console.WriteLine(addResponse.RequestId);
             //Search for an image.
             SearchImageRequest searchRequest = new SearchImageRequest();
-
-
-
-            searchRequest.InstanceName = "teamimagesearch";
-            //searchRequest.Type = "SearchByName";
-            //searchRequest.ProductId = "test";
-            //searchRequest.PicName = "test";
+            searchRequest.InstanceName = ImageSearchConstant.InstanceName;
             searchRequest.PicContent = pic;
+            searchRequest.Num = 100;
+
             SearchImageResponse searchResponse = client.GetAcsResponse(searchRequest);
+
 
             Console.WriteLine(searchResponse);
             Console.WriteLine(searchResponse.RequestId);
@@ -93,8 +98,9 @@ namespace ImageSearch
                 filteredImages.Add(string.Format(ImageUrl, response.PicName));
             }
 
-
            // PutObjectFromString();
+
+
             //PutObjectWithDir();
             //PutObjectWithHeader();
             // Delete an image.
@@ -109,38 +115,26 @@ namespace ImageSearch
         public void CreateMetaFile(string bucketName, StringBuilder text)
         {
          
-
             string metaText = Convert.ToString(text);
             string timeStamp = DateTime.Now.ToString("yyyyMMddHHmmssfff");
-            string path = @"D:\AliCloud\MetaDataFile\increment_"+ timeStamp+ ".meta";
-
-            string path1 = @"D:\AliCloud\MetaDataFile\incrementText"+ timeStamp+".text";
-            string ossMetaPath = @"D:\AliCloud\MetaDataFile\increment.meta";
-            //string path = @"D:\MyTest.txt";
-            if (File.Exists(path))
-            {
-                File.Delete(path);
-            }
+            string ossMetaTextPath =string.Format(ImageSearchConstant.OssMetaTextFilePath,timeStamp);
+            string ossMetaPath = ImageSearchConstant.OssMetaFilePath;
+         
             if (File.Exists(ossMetaPath))
             {
-                File.Delete(path);
+                File.Delete(ossMetaPath);
             }
-            if (File.Exists(path1))
+            if (File.Exists(ossMetaTextPath))
             {
-                File.Delete(path1);
+                File.Delete(ossMetaTextPath);
             }
-            using (FileStream fs = File.Create(path1))
-            {
-                Byte[] info = new UTF8Encoding(true).GetBytes(metaText);
-                // Add some information to the file.
-                fs.Write(info, 0, info.Length);
-            }
-            using (FileStream fs = File.Create(path))
+            using (FileStream fs = File.Create(ossMetaTextPath))
             {
                 Byte[] info = new UTF8Encoding(true).GetBytes(metaText);
                 // Add some information to the file.
                 fs.Write(info, 0, info.Length);
             }
+          
             using (FileStream fs = File.Create(ossMetaPath))
             {
                 Byte[] info = new UTF8Encoding(true).GetBytes(metaText);
@@ -149,7 +143,7 @@ namespace ImageSearch
             }
 
             string fileName = Path.GetFileName(ossMetaPath);
-            string key = string.Format("Test/{0}", fileName);
+            string key = string.Format(ImageSearchConstant.OSSImageFolderPath, fileName);
             UploadFileInOss(bucketName, ossMetaPath, key);
         }
 
@@ -166,53 +160,15 @@ namespace ImageSearch
             }
 
         }
-        public static void PutObjectFromString(string bucketName= "imagesearchbuckettest")
-        {
-            const string key = "PutObjectFromString";
-            const string str = "Aliyun OSS SDK for C#";
-
-            try
-            {
-                 OssClient client = new OssClient("oss-ap-southeast-1.aliyuncs.com", "LTAI0YxcZfPRUUjg", "2BnIA99n4P5McHbaH5HZ7IrSPCIa4F");
-                byte[] binaryData = Encoding.ASCII.GetBytes(str);
-                var stream = new MemoryStream(binaryData);
-
-                client.PutObject(bucketName, key, stream);
-                Console.WriteLine("Put object:{0} succeeded", key);
-            }
-            catch (OssException ex)
-            {
-                Console.WriteLine("Failed with error code: {0}; Error info: {1}. \nRequestID:{2}\tHostID:{3}",
-                    ex.ErrorCode, ex.Message, ex.RequestId, ex.HostId);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Failed with error info: {0}", ex.Message);
-            }
-        }
-
-        public  void PutObjectWithDir(string categoryId= "88888888")
-        {
-            string bucketName = "imagesearchbuckettest";
-            StringBuilder metaFileText = new StringBuilder();
-            foreach (var file in Directory.GetFiles(@"D:\AliCloud\Images\Bags"))
-            {
-                Console.WriteLine(file);
-                string fileName = Path.GetFileName(file);
-                string key = string.Format("Images/{0}", fileName);
-
-                CreateMetaDataTxt(metaFileText, fileName, categoryId);
-                UploadFileInOss(bucketName, file, key);
-            }
-            CreateMetaFile(bucketName,metaFileText);
-        }
+     
 
         public void PutObjectWithUrls(IList<IFormFile> formFiles, string categoryId)
         {
 
-            string bucketName = "imagesearchbuckettest";
+            string bucketName = ImageSearchConstant.BucketName;
             StringBuilder metaFileText = new StringBuilder();
             var temppath = Path.GetTempPath();
+            List<IncrementMetaFile> metafileTextData = new List<IncrementMetaFile>();
             foreach (var file in formFiles)
             {
                 var fileToUpload = string.Format("{0}{1}", temppath, file.FileName);
@@ -220,7 +176,7 @@ namespace ImageSearch
                 var imagePath = string.Format("{0}{1}", "D:/", file.FileName);
                 Console.WriteLine(file);
                 string fileName = file.FileName; //Path.GetFileName(file);
-                string key = string.Format("Test/{0}", fileName);
+                string key = string.Format(ImageSearchConstant.OSSImageFolderPath, fileName);
 
                 Image image = Image.FromStream(file.OpenReadStream(), true, true);
                 ResizeAndSaveImage(fileToUpload, image);
@@ -281,19 +237,100 @@ namespace ImageSearch
             {
                 var newImage = ResizeImage(image,newWidth, newHeight);
                 newImage.Save(fileToUpload);
+                
             }
 
             else
             {
+                
                 image.Save(fileToUpload);
             }
         }
 
+        private static string ResizeFilterImage( Image image)
+        {
+
+            string encodedImageData = string.Empty;
+            Image newImage = image;
+            int newWidth = 0;
+            int newHeight = 0;
+
+            bool isWidthUpdated = false;
+            bool isHeightUpdated = false;
+            var imageWidth = image.Size.Width;
+            var imageHeight = image.Size.Height;
+
+            if (imageWidth < 250)
+            {
+                newWidth = 250;
+                isWidthUpdated = true;
+            }
+            else if (imageWidth > 1250)
+            {
+                newWidth = 1250;
+                isWidthUpdated = true;
+            }
+            else
+            {
+                newWidth = imageWidth;
+                isWidthUpdated = false;
+            }
+
+            if (imageHeight < 250)
+            {
+                newHeight = 250;
+                isHeightUpdated = true;
+            }
+            else if (imageHeight > 1250)
+            {
+                newHeight = 1250;
+                isHeightUpdated = true;
+            }
+            else
+            {
+                newHeight = imageHeight;
+                isHeightUpdated = false;
+            }
+
+            if (isWidthUpdated || isHeightUpdated)
+            {
+                newImage = ResizeImage(image, newWidth, newHeight);
+            }
+            using (MemoryStream ms = new MemoryStream())
+            {
+                // Convert Image to byte[]
+                newImage.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                byte[] imageBytes = ms.ToArray();
+
+                // Convert byte[] to Base64 String
+                encodedImageData = Convert.ToBase64String(imageBytes);
+               
+            }
+            //using (var stream = new System.IO.MemoryStream())
+            //{
+            //    newImage.Save(stream, System.Drawing.Imaging.ImageFormat.Bmp);
+            //    byte[] imageBytes = stream.ToArray();
+            //    encodedImageData = Convert.ToBase64String(imageBytes);
+            //}
+           
+            return encodedImageData;
+
+        }
+
+        public static string ConvertImageToBase64String(Image image)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                image.Save(ms, image.RawFormat);
+                return Convert.ToBase64String(ms.ToArray());
+            }
+        }
         private  void UploadFileInOss(string bucketName, string file, string key)
         {
             try
             {
-                OssClient client = new OssClient("oss-ap-southeast-1.aliyuncs.com", "LTAI0YxcZfPRUUjg", "2BnIA99n4P5McHbaH5HZ7IrSPCIa4F");
+                OssClient client = new OssClient(ImageSearchConstant.EndPointName, ImageSearchConstant.AccessKeyId, ImageSearchConstant.Secret);
+                //OssClient client = new OssClient("oss-ap-southeast-1.aliyuncs.com", "LTAI0YxcZfPRUUjg", "2BnIA99n4P5McHbaH5HZ7IrSPCIa4F");
                 client.PutObject(bucketName, key, file);
             
                 client.SetObjectAcl(bucketName, key, CannedAccessControlList.PublicReadWrite);
@@ -314,18 +351,43 @@ namespace ImageSearch
         {
             IncrementMetaFile incrementMetaFile = new IncrementMetaFile()
             {
-                item_id = 100 + new Random().Next(1, 100000).ToString(),
-                cust_content = "k1:v1,k2:v2,k3:v3",
                 Operator = "ADD",
-                pic_list = new List<string> { fileName }.ToArray(),
-                cat_id =Convert.ToInt32(categoryId)
+                item_id = 100 + new Random().Next(1, 100000).ToString(),
+                cat_id = Convert.ToInt32(categoryId),
+                cust_content = "k1:v1,k2:v2,k3:v3",
+                pic_list = new List<string> { fileName }.ToArray()
 
             };
+            var itemID = 100 + new Random().Next(1, 100000).ToString();
+            var catId = Convert.ToInt32(categoryId);
+            var text = string.Format(ImageSearchConstant.text,itemID ,catId, fileName);
             string jsonIncementextFile = JsonConvert.SerializeObject(incrementMetaFile);
-            metaFileText.Append(jsonIncementextFile);
-        }
 
-      
+            var teststring = jsonIncementextFile.Substring(0, jsonIncementextFile.IndexOf("cat_id")) + " " +
+                             jsonIncementextFile.Substring(jsonIncementextFile.IndexOf("cat_id") + 1, jsonIncementextFile.IndexOf("cust_content")) + " "
+                             + jsonIncementextFile.Substring(jsonIncementextFile.IndexOf("cust_content") + 1, jsonIncementextFile.IndexOf("cust_content"));
+            string modify = jsonIncementextFile.Insert(jsonIncementextFile.IndexOf("cat_id") - 1," ");
+            string modify1 = modify.Insert(modify.IndexOf("cust_content") - 1, " ");
+            string finalString = modify1.Insert(modify1.IndexOf("pic_list") - 1, " ");
+            metaFileText.Append(text);
+        }
+        //private static IncrementMetaFile CreateMetaDataTxt(StringBuilder metaFileText, string fileName, string categoryId)
+        //{
+        //    IncrementMetaFile incrementMetaFile = new IncrementMetaFile()
+        //    {
+        //        item_id = 100 + new Random().Next(1, 100000).ToString(),
+        //        cust_content = "k1:v1,k2:v2,k3:v3",
+        //        Operator = "ADD",
+        //        pic_list = new List<string> { fileName }.ToArray(),
+        //        cat_id = Convert.ToInt32(categoryId)
+
+        //    };
+
+        //    return incrementMetaFile;
+        //    //string jsonIncementextFile = JsonConvert.SerializeObject(incrementMetaFile);
+        //    //metaFileText.Append(jsonIncementextFile);
+        //}
+
         public void PutObjectWithHeader(string bucketName= "imagesearchbuckettest")
         {
             const string key = "oss-ap-southeast-1.aliyuncs.com/imagesearchbuckettest/newfolder";
@@ -417,8 +479,6 @@ namespace ImageSearch
             }
 
             var res = new Bitmap(newWidth, newHeight);
-
-
 
             return res;
         }

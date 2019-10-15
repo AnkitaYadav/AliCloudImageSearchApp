@@ -7,7 +7,8 @@ import {HomeService } from '../Service/home.service';
   styleUrls:['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-
+  imgURL: any;
+  imagePath:any;
   ngOnInit(): void {
     this.getAllImages();
     }
@@ -31,7 +32,8 @@ export class HomeComponent implements OnInit {
 
     if (files && file) {
       var reader = new FileReader();
-
+      //this.imagePath = files;
+      //reader.readAsDataURL(files[0]); 
       reader.onload = this._handleReaderLoaded.bind(this);
 
       reader.readAsBinaryString(file);
@@ -43,6 +45,7 @@ export class HomeComponent implements OnInit {
     var binaryString = readerEvt.target.result;
     this.base64textString = btoa(binaryString);
     var binaryImageString = btoa(binaryString);
+    this.imgURL = "data:image/png;base64," + binaryImageString;
     console.log(btoa(binaryString));
     this.filterImageData(binaryImageString);
   }

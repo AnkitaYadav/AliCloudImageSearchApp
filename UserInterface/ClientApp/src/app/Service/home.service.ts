@@ -33,8 +33,6 @@ export class HomeService {
       formData.append('images', fileToUpload[i], fileToUpload[i].name);
       //text += cars[i] + "<br>";
     }
-
-   
     return this.http.post(endpoint, formData);
   }
 

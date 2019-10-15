@@ -12,6 +12,7 @@
   <div>
     <label for="filePicker">Choose or drag a file:</label><br>
     <input type="file" id="filePicker" (change)="handleFileSelect($event)">
+    <img [src]="imgURL" height="200" *ngIf="imgURL" class="img-responsive img-rounded">
   </div>
   <br>
 
