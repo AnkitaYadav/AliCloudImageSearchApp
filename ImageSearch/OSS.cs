@@ -11,9 +11,9 @@ namespace ImageSearch
             string ImageUrl = ImageSearchConstant.ImageUrl; ;
 
             List<string> imageUrls = new List<string>();
-            var endpoint = ImageSearchConstant.EndPointName; //"oss-ap-southeast-1.aliyuncs.com";
-            var accessKeyId = "LTAI0YxcZfPRUUjg";
-            var accessKeySecret = "2BnIA99n4P5McHbaH5HZ7IrSPCIa4F";
+            var endpoint = ImageSearchConstant.OSSEndPointName; //"oss-ap-southeast-1.aliyuncs.com";
+            var accessKeyId = ImageSearchConstant.AccessKeyId;//"LTAI0YxcZfPRUUjg";
+            var accessKeySecret = ImageSearchConstant.Secret;//"2BnIA99n4P5McHbaH5HZ7IrSPCIa4F";
             var bucketName = ImageSearchConstant.BucketName; //"imagesearchbuckettest";
             // Create an OSSClient instance.
 
@@ -21,8 +21,8 @@ namespace ImageSearch
             try
             {
                 var listObjectsRequest = new ListObjectsRequest(bucketName);
-                listObjectsRequest.MaxKeys = 1000;
-                listObjectsRequest.Prefix = "ImageSearch/";
+                listObjectsRequest.MaxKeys = ImageSearchConstant.MaxRecordsCount;
+                listObjectsRequest.Prefix = ImageSearchConstant.OSSfolderPrefix;
                 // Simply list the objects in a specified bucket. 100 records are returned by default.
                 var result = client.ListObjects(listObjectsRequest);
                 Console.WriteLine("List objects succeeded");

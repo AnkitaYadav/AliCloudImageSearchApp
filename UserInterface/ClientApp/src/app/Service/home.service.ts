@@ -10,7 +10,7 @@ export class HomeService {
 
   getAllImages(): Observable<any> {
     debugger;
-    return this.http.get('http://localhost:56488/api/SampleData/WeatherForecasts');
+    return this.http.get('http://localhost:56488/api/SampleData/GetOssImages');
   }
 
   filterImage(imageString: any) {
